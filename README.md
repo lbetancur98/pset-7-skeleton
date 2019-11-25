@@ -77,9 +77,11 @@ Many of these use cases will familiar to you based on your own experience with P
 * Remove a student from a course
 * Logout of an account
 
-### UI
+### User Interface
 
-As long as you meet each of the specifications outline in the *Requirements* section and cover the user cases in the *Overview* section, it is up to you to design the user interface of your application to your liking. Menus, options, error messages, status messages, data display is all in your domain.
+As long as you meet each of the specifications outline in the *Requirements* section and cover the user cases in the *Overview* section, it is largely up to you to design the user interface of your application to your liking.
+
+You just need to make sure there are different interfaces for each user account (student, teacher, and administrator), as well appropriate menus and options to access each of the required features. Make sure you define consistent error and status messages, and format the display of information in a uniform manner.
 
 ## Requirements
 
