@@ -79,6 +79,8 @@ Many of these use cases will familiar to you based on your own experiences with 
 * Factory reset database
 * Shutdown application
 
+As you begin to test your code, which you should do early, thoroughly, and often, these use cases should give you a very good starting point.
+
 ## Requirements
 
 Coming soon!
