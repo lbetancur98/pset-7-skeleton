@@ -75,7 +75,7 @@ Many of these use cases will familiar to you based on your own experiences with 
 
 * Login to an account
 * Add or delete an account
-* Reset password for an account
+* Reset password for another account
 * Factory reset database
 * Shutdown application
 
