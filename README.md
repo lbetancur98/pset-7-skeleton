@@ -38,62 +38,68 @@ $ git remote add origin git@github.com:YOUR-USERNAME/pset-7.git
 
 ## Overview
 
-You'll be creating a grading system much like the PowerSchool application we all know and love. You'll need to implement the application from both the student and teacher perspective, which means separate logins and separate functionality based on the user that is logged in. Let's dive into the use cases.
+You'll be creating a grading system much like the PowerSchool application we all know and love. You'll need to implement the application for four separate access levels: root, school administrator, teacher, and student. The features and functionalities available in the application will depend on the type of account with which a user logs in.
 
 ### Use Cases
 
-Many of these use cases will familiar to you based on your own experience with PowerSchool. We'll separate use cases based on students, teachers, and administrators.
+Many of these use cases will familiar to you based on your own experiences with PowerSchool. Naturally, those specific to school administators and teachers will be quite different. We'll separate use cases based on students, teachers, administrators, and the all-powerful root user.
 
 #### Student
 
 * Login to an account
-* View all courses and grades
+* View course grades
 * View assignment grades by course
+* Change password
 * Logout of an account
 
 #### Teacher
 
 * Login to an account
-* View course enrollment
-* Create an assignment
-* Edit an assignment
-* Delete an assignment
-* Enter grades by assignment
-* Edit grades by assignment
-* Delete grades by assignment
+* View enrollment by course
+* Create, modify, or delete an assignment
+* Enter, modify, or delete grades for an assignment
+* Change password
 * Logout of an account
 
 #### Administrator
 
 * Login to an account
-* View school faculty
-* View school enrollment by grade
-* Create a student or teacher account
-* Edit a student or teacher account
-* Delete a student or teacher account
-* Create a course
-* Delete a course
-* Add a student to a course
-* Remove a student from a course
+* View faculty by department
+* View enrollment by grade
+* Create, modify, or delete a course
+* Modify enrollment by course
+* Change password
 * Logout of an account
 
-### User Interface
+#### Root
 
-As long as you meet each of the specifications outline in the *Requirements* section and cover the user cases in the *Overview* section, it is largely up to you to design the user interface of your application to your liking.
-
-You just need to make sure there are different interfaces for each user account (student, teacher, and administrator), as well appropriate menus and options to access each of the required features. Make sure you define consistent error and status messages, and format the display of information in a uniform manner.
+* Login to an account
+* Add or delete an account
+* Reset password for an account
+* Factory reset database
+* Shutdown application
 
 ## Requirements
 
-Of course, it is required that your application effectively and gracefully handle each of the use cases outline in the *Overview* section. Beyond that, though, let's discuss some of the finer details of data.
+Coming soon!
+
+### User Interface
+
+Coming soon!
 
 ### Data Persistence
 
-Account changes (i.e., creating new accounts, or depositing, withdrawing, or transferring funds) must persist between:
-* separate logins (across all user types)
-* application shutdowns and startups
+All changes must persist between separate logins (across all user account types) and application shutdowns and startups. The only instance in which data persistence is acceptably lost is in the case of a root-authorized factory reset.
 
-Rather than a flat file, we're persisting all changes to an embedded database. Most of this is already done for you. You just need to connect to and use the built-in database access methods that have been implemented for you.
+Rather than a flat file, we're persisting all changes to an embedded SQLite database. Many (but not all!) of the database methods have been written for you. You'll need to finish up the data access layer of the application, as well as integrate the provided methods what your own code.
+
+To make your lives a little easier, I recommend downloading a browser application for the SQLite database. [DB Browser for SQLite](https://sqlitebrowser.org/) is a pretty good option. Plus, it's free. There are others out there (some free, some not) if you aren't a fan of that one.
+
+### Teams
+
+If you wish, you can work with one other person on this assignment. It is your responsibility to agree on a design, development plan, the division of labor, and (perhaps, most importantly!) timelines. You'll submit your problem set as a team, and will receive a grade as a team.
+
+If you elect to work in a pair, you are to create a single repository configured so that each of you has permission push and pull changes to and from it. Let me know if you need help setting this up, but it should be fairly straightforward to add a collaborator.
 
 ## Deadline
 
@@ -106,7 +112,7 @@ If you submit your problem set at midnight (i.e., December 20, 2019, at 12:00am)
 ### Submission Requirements
 
 * Your code **must** compile. Code that fails to meet this minimum requirement will not be accepted.
-* There must be **at least** 30 unique commits to your repository.
+* There must be **at least** 50 unique commits to your repository.
 * Your code must meet each requirement outlined in the *Overview* and *Requirements* sections.
 * Your code must adhere to the course style guidelines.
 
