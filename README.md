@@ -97,6 +97,10 @@ Rather than a flat file, we're persisting all changes to an embedded SQLite data
 
 To make your lives a little easier, I recommend downloading a browser application for the SQLite database. [DB Browser for SQLite](https://sqlitebrowser.org/) is a pretty good option. Plus, it's free. There are others out there (some free, some not) if you aren't a fan of that one.
 
+### Fields
+
+Coming soon!
+
 ### Teams
 
 If you wish, you can work with one other person on this assignment. It is your responsibility to agree on a design, development plan, the division of labor, and (perhaps, most importantly!) timelines. You'll submit your problem set as a team, and will receive a grade as a team.
