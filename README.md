@@ -66,7 +66,6 @@ Many of these use cases will familiar to you based on your own experiences with 
 * Login to an account
 * View faculty by department
 * View enrollment by grade
-* Create, modify, or delete a course
 * Modify enrollment by course
 * Change password
 * Logout of an account
