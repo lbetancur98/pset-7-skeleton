@@ -104,7 +104,7 @@ To make your lives a little easier, I recommend downloading a browser applicatio
 
 Let's walk through each of the field requirements as defined in the various classes, but most importantly as stored in the embedded database tables.
 
-#### User
+#### Users
 
 The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! Aside from that, though, there are few formatting issues you'll need to understand.
 
