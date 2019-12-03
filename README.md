@@ -214,7 +214,7 @@ The `assignment_grades` table uses the `course_id`, `assignment_id`, and `assign
 
 ### Teams
 
-If you wish, you can work with one other person on this assignment. It is your responsibility to agree on a design, development plan, the division of labor, and (perhaps, most importantly!) timelines. You'll submit your problem set as a team, and will receive a grade as a team.
+If you wish, you can work with one other person on this assignment. It is your responsibility to agree on a design, your development plan, the division of labor, and (perhaps, most importantly!) timelines. You'll submit your problem set as a team, and will receive a grade as a team.
 
 If you elect to work in a pair, you are to create a single repository configured so that each of you has permission push and pull changes to and from it. Let me know if you need help setting this up, but it should be fairly straightforward to add a collaborator.
 
