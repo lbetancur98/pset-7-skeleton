@@ -82,11 +82,11 @@ Many of these use cases will familiar to you based on your own experiences with 
 * Logout of an account
 * Shutdown application
 
-As you begin to test your code, which you should do early, thoroughly, and often, these use cases should give you a very good starting point.
+As you begin to test your code, which you should do early, thoroughly, and often, these use cases should give you a very good starting point. There's a lot of functionality to implement here, so I'd recommend focusing on one user type (and one use case for that user type!) at a time.
 
 ## Requirements
 
-Coming soon!
+In developing this application, you'll need to meet specific requirements for each user. The features and options available to you depend entirely on the type of user that is logged in. It's your job to make this distinction.
 
 ### User Interface
 
@@ -102,7 +102,115 @@ To make your lives a little easier, I recommend downloading a browser applicatio
 
 ### Fields
 
-Coming soon!
+Let's walk through each of the field requirements as defined in the various classes, but most importantly as stored in the embedded database tables.
+
+#### User
+
+The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! Aside from that, though, there are few formatting issues you'll need to understand.
+
+* The `userId` field is an autoincremented integer, starting from 1. Nothing to see here.
+* The `account_type` field is either `root`, `administrator`, `teacher`, or `student`. This is how you'll determine which interface to display and which features to offer.
+* The `username` field is always formatted as *firstinitiallastname*, like so: `rwilson`. This field needs to be unique, so you can add numbers (starting with 1 and incrementing by 1 from there) to remedy this as needed (i.e., `rwilson1`).
+* The `auth` field is a 32-character MD5 hash representing the user's password. The default password for every user is their username. This needs to be changed upon their first login. Always use the `Utils.getHash` function to hash plaintext passwords.
+* The `last_login` field is a timestamp (formatted as `YYYY-MM-DD HH:MM:SS.FFF`) representing the last time the user logged into the system. By default, this is `0000-00-00 00:00:00.000`, which is how you'll know if you need to prompt first-time users to change their default passwords).
+
+#### Departments
+
+The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! There's not a whole lot going on here of interest.
+
+* The `department_id` field is an autoincremented integer, starting from 1.
+* The `title` field is the name of the department, which can be `Computer Science`, `English`, `History`, `Mathematics`, `Phyiscal Education`, or `Science`.
+
+#### Administrators
+
+The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! Aside from that, though, there are few formatting issues you'll need to understand.
+
+* The `teacher_id` field is an autoincremented integer, starting from 1.
+* The `first_name` field is the administrator's first name.
+* The `last_name` field is the administrator's last name.
+* The `job_title` field is the position the administrator holds within the school. This can be either `Principal` or `Supervisor`.
+* The `user_id` field is a reference (called a *foreign key*) to the `user` table. It's a way of associating each administrator with exactly one user account.
+
+As you might've noticed, the `Administrator` class extends the `User` class. This means, in practice, the `activeUser` (when that user is an admnistrator) will store the attibutes of both an `Administrator` and a `User`.
+
+#### Teachers
+
+The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! Aside from that, though, there are few formatting issues you'll need to understand.
+
+* The `administrator_id` field is an autoincremented integer, starting from 1.
+* The `first_name` field is the administrator's first name.
+* The `last_name` field is the administrator's last name.
+* The `department_id` field is a reference (called a *foreign key*) to the `departments` table. It's a way of associating each teacher with exactly one department.
+* The `user_id` field is a reference (called a *foreign key*) to the `user` table. It's a way of associating each teacher with exactly one user account.
+
+As you might've noticed, the `Teacher` class extends the `User` class. This means, in practice, the `activeUser` (when that user is a teacher) will store the attibutes of both an `Teacher` and a `User`.
+
+#### Students
+
+The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! Aside from that, though, there are few formatting issues you'll need to understand.
+
+* The `student_id` field is an autoincremented integer, starting from 1.
+* The `first_name` field is the administrator's first name.
+* The `last_name` field is the administrator's last name.
+* The `graduation` field is the year in which the student is set to graduate. This is always a four-digit year.
+* The `grade_level` field is the numeric representation of freshman, sophomore, junior, or senior. This translates into either `9`, `10`, `11`, or `12`.
+* The `gpa` is the computed grade point average, always rounded to four digits of precision. This is calcuated with each grade entry; prior to any grade entries, it defaults to `0.0`.
+* The `class_rank` is the numeric ranking based on `gpa`. This, too, is calculated iwth each grade entry; prior to any grade entries, it defaults to `0`.
+* The `user_id` field is a reference (called a *foreign key*) to the `user` table. It's a way of associating each student with exactly one user account.
+
+As you might've noticed, the `Student` class extends the `User` class. This means, in practice, the `activeUser` (when that user is a student) will store the attibutes of both an `Student` and a `User`.
+
+#### Courses
+
+The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! Aside from that, though, there are few formatting issues you'll need to understand.
+
+* The `course_id` field is an autoincremented integer, starting from 1. Every time you add a course, this number increases.
+* The `department_id` field is a reference (called a *foreign key*) to the `departments` table. It's a way of associating each course with exactly one department.
+* The `course_no` field is a unique, text-based course identification system. Each course number starts with a two-character identifier (`CS` for `Computer Science`, `EN` for `English`, `HI` for `History`, `MA` for `Mathematics`, `PE` for `Physical Education`, and `SC` for `Science`) followed by a four-digit number. Higher numbers indicate more advanced courses.
+* The `title` field is the name of the course.
+* The `credit_hours` field is the number of credits the course is worth.
+* The `weight` field indicates how the course is weighted in terms of GPA calculations. Standard courses have a `1.0` weighting, while AP courses have a `1.5` weighting.
+* The `enrollment` field tracks how many students are currently enrolled in the course.
+* The `capacity` field is the the maximum number of students who may enroll in a course at any given time.
+
+#### Course Grades
+
+The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! Aside from that, though, there are few formatting issues you'll need to understand.
+
+* The `course_id` field is a reference (called a *foreign key*) to the `courses` table. It's a way of associating each grade with exactly one course.
+* The `student_id` field is a reference (called a *foreign key*) to the `students` table. It's a way of associating each grade with exactly one student.
+The `mp1` field is the first marking period grade.
+The `mp2` field is the second marking period grade.
+The `midterm_exam` field is the midterm exam grade.
+The `mp3` field is the third marking period grade.
+The `mp4` field is the fourth marking period grade.
+The `final_exam` field is the final exam grade.
+The `grade` field is the calculated course grade based on the marking period and exam grades (20% per marking period, 10% per exam).
+
+Until now, all of our tables have used a single primary key column. The `course_grades` table uses the `course_id` and `student_id` columns as a composite primary key. This means that every row in the table must have a unique combination of these two column values.
+
+#### Assignments
+
+The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! Aside from that, though, there are few formatting issues you'll need to understand.
+
+* The `course_id` field is a reference (called a *foreign key*) to the `courses` table. It's a way of associating each assignment with exactly one course.
+* The `assignment_id` field is an autogenerated integer by course.
+* The `title` field is the name of the assignment.
+* The `point_value` field is the number of points the assignment is worth. This must be between 1 and 100.
+
+The `assignments` table uses the `course_id`, `assignment_id`, and `title` columns as a composite primary key. This means that every row in the table must have a unique combination of these three column values.
+
+#### Assignment Grades
+
+The table structure, including any table- column-level constraints, are clearly defined in the `setup.sql` file. Time to brush up on those SQL skills! Aside from that, though, there are few formatting issues you'll need to understand.
+
+* The `course_id` field is a reference (called a *foreign key*) to the `courses` table. It's a way of associating each assignment grade with exactly one course.
+* The `assignment_id` field is a reference (called a *foreign key*) to the `assignments` table. It's a way of associating each assignment grade with exactly one assignment.
+* The `student_id` field is a reference (called a *foreign key*) to the `students` table. It's a way of associating each assignment grade with exactly one student.
+* The `points_earned` field is the number of points the student earned on that assignment. This value must be between 0 and `points_possible`.
+* The `points_possible` field is the total number of points a student could have possibly earned on this assignment. This must be between 1 and 100.
+
+The `assignment_grades` table uses the `course_id`, `assignment_id`, and `assignment_id` columns as a composite primary key. This means that every row in the table must have a unique combination of these three column values.
 
 ### Teams
 
