@@ -64,7 +64,9 @@ Many of these use cases will familiar to you based on your own experiences with 
 #### Administrator
 
 * Login to an account
+* View faculty
 * View faculty by department
+* View enrollment
 * View enrollment by grade
 * View enrollment by course
 * Change password
