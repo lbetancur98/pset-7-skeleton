@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users (
 	user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    account_type TEXT,
-    username TEXT UNIQUE,
-    auth TEXT,
-    last_login TEXT
+    account_type TEXT NOT NULL,
+    username TEXT UNIQUE NOT NULL,
+    auth TEXT NOT NULL,
+    last_login TEXT NOT NULL
 );
 
 INSERT INTO users (account_type, username, auth, last_login) VALUES ("root", "root", "b4b8daf4b8ea9d39568719e1e320076f", "0000-00-00 00:00:00.000");
@@ -48,7 +48,7 @@ INSERT INTO users (account_type, username, auth, last_login) VALUES ("student", 
 DROP TABLE IF EXISTS departments;
 CREATE TABLE IF NOT EXISTS departments (
 	department_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT
+    title TEXT UNIQUE NOT NULL
 );
 
 INSERT INTO departments (title) VALUES ("Computer Science");
@@ -61,10 +61,10 @@ INSERT INTO departments (title) VALUES ("Science");
 DROP TABLE IF EXISTS administrators;
 CREATE TABLE IF NOT EXISTS administrators (
 	administrator_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    first_name TEXT,
-    last_name TEXT,
-    job_title TEXT,
-    user_id INTEGER,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    job_title TEXT NOT NULL,
+    user_id INTEGER UNIQUE NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
@@ -74,10 +74,10 @@ INSERT INTO administrators (first_name, last_name, job_title, user_id) VALUES ("
 DROP TABLE IF EXISTS teachers;
 CREATE TABLE IF NOT EXISTS teachers (
 	teacher_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    first_name TEXT,
-    last_name TEXT,
-    department_id INTEGER,
-    user_id INTEGER,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    department_id INTEGER NOT NULL,
+    user_id INTEGER UNIQUE NOT NULL,
     FOREIGN KEY (department_id) REFERENCES departments (department_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
@@ -90,13 +90,13 @@ INSERT INTO teachers (first_name, last_name, department_id, user_id) VALUES ("La
 DROP TABLE IF EXISTS students;
 CREATE TABLE IF NOT EXISTS students (
 	student_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    first_name TEXT,
-    last_name TEXT,
-    graduation INTEGER,
-    grade_level INTEGER,
-    gpa REAL,
-    class_rank INTEGER,
-    user_id INTEGER,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    graduation INTEGER NOT NULL,
+    grade_level INTEGER NOT NULL,
+    gpa REAL NOT NULL,
+    class_rank INTEGER NOT NULL,
+    user_id INTEGER UNIQUE NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
@@ -134,13 +134,13 @@ INSERT INTO students (first_name, last_name, graduation, grade_level, gpa, class
 DROP TABLE IF EXISTS courses;
 CREATE TABLE IF NOT EXISTS courses (
 	course_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    department_id INTEGER,
-    course_no TEXT,
-    title TEXT,
-    credit_hours REAL,
-    weight REAL,
-    enrollment INTEGER,
-    capacity INTEGER,
+    department_id INTEGER NOT NULL,
+    course_no TEXT UNIQUE NOT NULL,
+    title TEXT UNIQUE NOT NULL,
+    credit_hours REAL NOT NULL,
+    weight REAL NOT NULL,
+    enrollment INTEGER NOT NULL,
+    capacity INTEGER NOT NULL,
     FOREIGN KEY (department_id) REFERENCES departments (department_id)
 );
 
@@ -172,8 +172,8 @@ INSERT INTO courses (department_id, course_no, title, credit_hours, weight, enro
 
 DROP TABLE IF EXISTS course_grades;
 CREATE TABLE IF NOT EXISTS course_grades (
-	course_id INTEGER,
-	student_id INTEGER,
+	course_id INTEGER NOT NULL,
+	student_id INTEGER NOT NULL,
 	mp1 REAL,
     mp2 REAL,
     midterm_exam REAL,
@@ -186,6 +186,13 @@ CREATE TABLE IF NOT EXISTS course_grades (
     PRIMARY KEY (course_id, student_id)
 );
 
+INSERT INTO course_grades (course_id, student_id) VALUES (4, 1);
+INSERT INTO course_grades (course_id, student_id) VALUES (4, 2);
+INSERT INTO course_grades (course_id, student_id) VALUES (4, 3);
+INSERT INTO course_grades (course_id, student_id) VALUES (4, 4);
+INSERT INTO course_grades (course_id, student_id) VALUES (4, 5);
+INSERT INTO course_grades (course_id, student_id) VALUES (4, 6);
+INSERT INTO course_grades (course_id, student_id) VALUES (4, 7);
 INSERT INTO course_grades (course_id, student_id) VALUES (4, 8);
 INSERT INTO course_grades (course_id, student_id) VALUES (4, 9);
 INSERT INTO course_grades (course_id, student_id) VALUES (4, 10);
@@ -209,31 +216,24 @@ INSERT INTO course_grades (course_id, student_id) VALUES (4, 27);
 INSERT INTO course_grades (course_id, student_id) VALUES (4, 28);
 INSERT INTO course_grades (course_id, student_id) VALUES (4, 29);
 INSERT INTO course_grades (course_id, student_id) VALUES (4, 30);
-INSERT INTO course_grades (course_id, student_id) VALUES (4, 31);
-INSERT INTO course_grades (course_id, student_id) VALUES (4, 32);
-INSERT INTO course_grades (course_id, student_id) VALUES (4, 33);
-INSERT INTO course_grades (course_id, student_id) VALUES (4, 34);
-INSERT INTO course_grades (course_id, student_id) VALUES (4, 35);
-INSERT INTO course_grades (course_id, student_id) VALUES (4, 36);
-INSERT INTO course_grades (course_id, student_id) VALUES (4, 37);
 
 DROP TABLE IF EXISTS assignments;
 CREATE TABLE IF NOT EXISTS assignments (
-	course_id INTEGER,
-    assignment_id INTEGER,
-    title TEXT,
-    point_value INTEGER,
+	course_id INTEGER NOT NULL,
+    assignment_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    point_value INTEGER NOT NULL,
     FOREIGN KEY (course_id) REFERENCES courses (course_id),
-    PRIMARY KEY (course_id, assignment_id)
+    PRIMARY KEY (course_id, assignment_id, title)
 );
 
 DROP TABLE IF EXISTS assignment_grades;
 CREATE TABLE IF NOT EXISTS assignment_grades (
-	course_id INTEGER,
-    assignment_id INTEGER,
-    student_id INTEGER,
-    points_earned INTEGER,
-    points_possible INTEGER,
+	course_id INTEGER NOT NULL,
+    assignment_id INTEGER NOT NULL,
+    student_id INTEGER NOT NULL,
+    points_earned INTEGER NOT NULL,
+    points_possible INTEGER NOT NULL,
     FOREIGN KEY (course_id) REFERENCES courses (course_id),
     FOREIGN KEY (assignment_id) REFERENCES assignemnts (assignment_id),
     FOREIGN KEY (student_id) REFERENCES students (student_id),
